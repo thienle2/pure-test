@@ -1,0 +1,135 @@
+/* ---------- Page shell: scales the 390×844 phone stage to fit any screen ---------- */
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#0a0a0c;color:#fff;font-family:Inter,system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+button{font-family:inherit}
+.page{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:16px 0 calc(16px + env(safe-area-inset-bottom))}
+.fit{width:calc(390px * var(--s,1));height:calc(844px * var(--s,1));flex:none}
+.fit .stage{transform:scale(var(--s,1));transform-origin:0 0}
+@media (min-width:600px){.fit .stage{border-radius:40px;box-shadow:0 0 0 10px #16171c,0 30px 80px rgba(0,0,0,.6)}}
+
+/* ---------- Stage ---------- */
+.stage{position:relative;width:390px;height:844px;overflow:hidden;background:#090d1a;flex:none}
+.lob{position:absolute;left:0;top:0;width:390px;height:844px;z-index:1;transition:opacity calc(var(--t)*400ms) ease}
+.lob .ov{position:absolute;left:24px;top:120px;width:342px;height:470px;border-radius:171px;background:#0b1328;box-shadow:inset 0 0 0 12px #121726}
+.lob .ghost{position:absolute;width:48px;height:48px;border-radius:24px;background:#1b2340}
+.stage:is(.go,.load,.land) .lob{opacity:0}
+.top0{position:absolute;left:16px;top:30px;width:358px;height:44px;display:flex;justify-content:space-between;align-items:center}
+.ib{width:44px;height:44px;border-radius:22px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;color:#d5d7e0;padding:0}
+.tbase{position:absolute;left:0;top:0;width:390px;height:844px;z-index:2;pointer-events:none}
+.timg{position:absolute;left:-171px;top:-26px;width:734px;height:761px;max-width:none;opacity:0;-webkit-mask-image:linear-gradient(to bottom,#000 82%,transparent 100%);mask-image:linear-gradient(to bottom,#000 82%,transparent 100%);transition:opacity calc(var(--t)*500ms) ease}
+.rim{position:absolute;left:47px;top:131px;overflow:visible;transition:opacity calc(var(--t)*500ms) ease}
+.rim rect{stroke-dashoffset:1}
+
+/* ---------- Join More Games sheet ---------- */
+.sheet{position:absolute;left:0;top:420px;width:390px;height:424px;z-index:4;background:#0d0e13;border-radius:28px 28px 0 0;box-shadow:0 -12px 40px rgba(0,0,0,.55);transition:transform calc(var(--t)*460ms) cubic-bezier(.5,0,.2,1)}
+.stage:is(.go,.load,.land) .sheet{transform:translateY(105%)}
+.handle{position:absolute;left:177px;top:10px;width:36px;height:5px;border-radius:3px;background:#3a3b44}
+.sh-title{position:absolute;left:0;top:26px;width:390px;text-align:center;font-size:21px;font-weight:600;margin:0}
+.x{position:absolute;right:16px;top:18px;width:44px;height:44px;border-radius:22px;border:0;background:#1f2028;color:#d6d7de;display:flex;align-items:center;justify-content:center;padding:0}
+.chips{position:absolute;left:16px;width:374px;display:flex;gap:8px;overflow:hidden}
+.chip{flex:none;height:34px;padding:0 14px;border-radius:17px;background:#1c1d24;color:#c9cad3;font-size:14px;display:flex;align-items:center}
+.chip.on{background:#3b82f6;color:#fff}
+.club{position:absolute;width:173px;display:flex;justify-content:center;align-items:center;gap:6px;font-size:13px;color:#d9dae2}
+.club i{width:14px;height:14px;border-radius:7px;background:#8a6a3a;display:block}
+.create{position:absolute;left:16px;top:364px;width:358px;height:48px;border-radius:14px;border:0;background:#3b82f6;color:#fff;font-size:16px;font-weight:600}
+
+/* ---------- Game card (static cards and hero share these parts) ---------- */
+.card{position:absolute;width:173px;height:76px;border-radius:38px;border:1px solid;overflow:hidden;color:#fff}
+.hbg{position:absolute;left:0;top:0;width:100%;height:100%;transition:opacity calc(var(--t)*300ms) ease}
+.icon{position:absolute;left:16px;top:11px;width:30px;height:28px;transform-origin:0 0;transition-property:left,top,transform,opacity;transition-duration:calc(var(--t)*620ms);transition-timing-function:cubic-bezier(.75,0,.2,1)}
+.mc{position:absolute;width:17px;height:23px;border-radius:3px;background:#f3f2ec;color:#1b1d2e;box-shadow:0 1px 3px rgba(0,0,0,.45);font-size:9px;font-weight:700;line-height:1;padding:2px 0 0 3px;font-style:normal}
+.mc i{display:block;font-style:normal;font-size:9px;margin-top:2px}
+.mc.a{left:0;top:2px;transform:rotate(-6deg)}
+.mc.b{left:9px;top:1px;transform:rotate(9deg);color:#c0262d}
+.nm{position:absolute;left:50px;top:15px;font-size:12px;font-weight:700;letter-spacing:.06em}
+.ml{position:absolute;left:18px;top:42px;font-size:9px;color:rgba(255,255,255,.65)}
+.mv{position:absolute;left:18px;top:52px;font-size:15px;font-weight:600}
+.ring{position:absolute;left:107px;top:9px;width:58px;height:58px}
+.ring svg{position:absolute;left:0;top:0;transform-origin:29px 29px}
+.rt{position:absolute;left:0;top:0;width:58px;height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
+.rn{font-size:11px}.rn b{font-size:20px;font-weight:600}
+.rt small{font-size:8px;color:rgba(255,255,255,.7);margin-top:2px}
+.arc{transition:stroke-dasharray calc(var(--t)*500ms) ease}
+
+/* ---------- Hero button ---------- */
+.hero{position:absolute;left:16px;top:566px;width:173px;height:76px;border-radius:38px;border:1px solid;padding:0;margin:0;background:none;color:#fff;font:inherit;text-align:left;overflow:hidden;cursor:pointer;z-index:5;-webkit-tap-highlight-color:transparent;transition-property:left,top,width,height,border-radius,transform,border-color,box-shadow,opacity;transition-duration:calc(var(--t)*620ms);transition-timing-function:cubic-bezier(.75,0,.2,1)}
+.lobby .hero{animation:pulse 1.8s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(59,130,246,.6)}100%{box-shadow:0 0 0 12px rgba(59,130,246,0)}}
+.hero:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.press .hero{transform:scale(.95);transition-duration:calc(var(--t)*100ms)}
+.hc{transition:opacity calc(var(--t)*160ms) ease}
+.hero .ring{transition-property:left,top,opacity,transform;transition-duration:calc(var(--t)*620ms);transition-timing-function:cubic-bezier(.75,0,.2,1)}
+
+/* ---------- Table UI ---------- */
+.tbl{position:absolute;left:0;top:0;width:390px;height:844px;z-index:6;pointer-events:none}
+.r{opacity:0;transition-property:opacity,transform;transition-duration:calc(var(--t)*320ms),calc(var(--t)*460ms);transition-timing-function:ease,cubic-bezier(.2,.9,.25,1.15);transition-delay:calc(var(--t)*var(--i,0)*70ms)}
+.topbar{position:absolute;left:16px;top:24px;width:358px;height:56px;display:flex;justify-content:space-between;align-items:center;transform:translateY(-12px)}
+.tabs{display:flex;gap:8px;align-items:flex-end}
+.tb{position:relative;width:64px;height:54px}
+.fan{position:absolute;left:12px;top:0;width:40px;height:30px}
+.fan span{position:absolute;top:0;width:18px;height:26px;border-radius:3px;background:#f3f2ec;color:#1b1d2e;font-size:8px;font-weight:700;padding:2px 0 0 3px;box-shadow:0 1px 3px rgba(0,0,0,.5)}
+.fan span:nth-child(1){left:2px;transform:rotate(-12deg)}
+.fan span:nth-child(2){left:11px}
+.fan span:nth-child(3){left:20px;transform:rotate(12deg)}
+.lb{position:absolute;left:0;bottom:0;width:64px;height:26px;border-radius:7px;background:#14161e;border:1px solid rgba(255,255,255,.14);display:flex;align-items:center;justify-content:space-between;padding:0 7px;font-size:10px;font-weight:700}
+.lb small{font-size:9px;color:rgba(255,255,255,.55);font-weight:500}
+.lb .pb{position:absolute;left:7px;right:7px;bottom:4px;height:2px;border-radius:1px;background:rgba(255,255,255,.12);overflow:hidden}
+.lb .pb span{display:block;height:2px}
+.tb.on .lb{border-color:rgba(255,255,255,.75);box-shadow:0 0 12px rgba(120,160,255,.35)}
+.tb.dim{opacity:.4}
+.seat{position:absolute;width:50px;height:50px;border-radius:25px;border:1px solid rgba(255,255,255,.14);background:rgba(14,20,38,.82);box-shadow:0 4px 12px rgba(0,0,0,.4);font-size:11px;color:rgba(255,255,255,.72);display:flex;align-items:center;justify-content:center;transform:scale(.5)}
+.opp{position:absolute;transform:translateY(-10px) scale(.94)}
+.opp img{display:block;width:100%;height:auto}
+.avimg{display:block;width:58px;height:67px}
+.plate2{margin-top:-4px;width:92px;border-radius:12px;background:#0a0c14;border:2px solid #4b44c4;box-shadow:0 0 0 2px rgba(75,68,196,.35);text-align:center;overflow:hidden}
+.plate2 span{display:block;font-size:13px;font-weight:600;padding:4px 0 3px;border-bottom:1px solid rgba(150,175,255,.55)}
+.plate2 b{display:block;font-size:14px;font-weight:500;color:#f2c14e;padding:3px 0 4px}
+.you{position:absolute;left:149px;top:538px;width:92px;display:flex;flex-direction:column;align-items:center;transform:translateY(24px) scale(.9)}
+.dchip{position:absolute;left:240px;top:604px;width:20px;height:20px;border-radius:10px;background:#e9eefc;color:#2a3a6a;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;transform:scale(.4)}
+.board{position:absolute;left:84px;top:292px;width:222px;display:flex;gap:5px}
+.back{position:relative;width:40px;height:56px;border-radius:6px;background:linear-gradient(160deg,#2b344a,#151a28);border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.85);transform:translateY(18px) scale(.6)}
+.back em{position:absolute;right:-7px;top:-7px;width:18px;height:18px;border-radius:9px;background:#22283a;border:1px solid rgba(255,255,255,.3);font-size:10px;font-style:normal;font-weight:600;display:flex;align-items:center;justify-content:center}
+.ctr{position:absolute;left:0;top:364px;width:390px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.pill{padding:4px 16px;border-radius:12px;background:rgba(120,150,230,.16);font-size:13px;font-weight:700;letter-spacing:.06em;color:rgba(255,255,255,.75)}
+.bl{font-size:11px;color:rgba(255,255,255,.45)}
+.ldg{position:absolute;left:0;top:410px;width:390px;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:15px;font-weight:600}
+.ldg small{font-size:12px;font-weight:400;color:rgba(255,255,255,.62)}
+.dots i{display:inline-block;width:4px;height:4px;border-radius:2px;background:#fff;margin-left:3px;animation:blink 1s infinite}
+.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+@keyframes blink{0%,100%{opacity:.2}50%{opacity:1}}
+.toast{position:absolute;left:0;top:666px;width:390px;display:flex;justify-content:center;transform:translateY(10px)}
+.toast span{padding:8px 14px;border-radius:16px;background:rgba(14,18,34,.92);border:1px solid rgba(120,150,230,.4);font-size:13px}
+.tbank{position:absolute;left:16px;top:716px;width:72px;height:40px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.45);font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;transform:translateY(20px)}
+.tbank svg{position:absolute;right:-6px;top:-7px}
+.acts{position:absolute;left:16px;top:776px;width:358px;display:flex;gap:10px;transform:translateY(110px)}
+.acts button{flex:1;height:52px;border-radius:14px;border:1px solid rgba(255,255,255,.08);color:#fff;font-size:16px;font-weight:600}
+.fold{background:linear-gradient(180deg,#c43a3a,#8f2222)}.call{background:#1e2028}.raise{background:linear-gradient(180deg,#3b82f6,#2259c9)}
+
+/* ---------- Prototype controls ---------- */
+.ctl{width:min(390px,calc(100% - 24px));display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.cb{min-height:44px;padding:0 14px;border-radius:10px;border:1px solid #33333d;background:#1c1c22;color:#ededf2;font-size:13px;font-weight:500;cursor:pointer}
+.cb[aria-pressed="true"]{background:#2b3a5e;border-color:#4b6bb5}
+.cb:focus-visible{outline:2px solid #93c5fd;outline-offset:2px}
+.ph{margin-left:auto;font-size:12px;color:#a3a3ad;text-align:right}
+
+/* ---------- C · Deal in choreography ----------
+   lobby → press → go (cards lift off) → load (shuffle + rim draws) → land (dealt in) */
+.stage:is(.go,.load,.land) .hero{left:155px;top:315px;width:80px;height:80px;border-radius:16px;border-color:transparent !important;animation:none;cursor:default;overflow:visible}
+.stage:is(.go,.load,.land) .hbg{opacity:0}
+.stage:is(.go,.load,.land) :is(.hc,.ring){opacity:0}
+.stage:is(.go,.load) .hero .icon{left:14px;top:10px;transform:scale(2)}
+.stage.load .icon .a{animation:shufA calc(var(--t)*450ms) ease-in-out infinite alternate}
+.stage.load .icon .b{animation:shufB calc(var(--t)*450ms) ease-in-out infinite alternate}
+@keyframes shufA{from{transform:rotate(-6deg)}to{transform:translateX(-7px) rotate(-16deg)}}
+@keyframes shufB{from{transform:rotate(9deg)}to{transform:translateX(7px) rotate(18deg)}}
+.stage.load .rim rect{stroke-dashoffset:0;transition:stroke-dashoffset calc(var(--t)*1450ms) cubic-bezier(.45,0,.25,1)}
+.stage.load .ldg{opacity:1;transform:none}
+.stage.land .rim{opacity:0}
+.stage.land .rim rect{stroke-dashoffset:0}
+.stage.land .timg{opacity:1}
+.stage.land .hero{left:248px;top:556px;width:60px;height:56px;transform:rotate(-8deg)}
+.stage.land .hero .icon{left:2px;top:2px;transform:scale(1.5)}
+.stage.land :is(.seat,.opp,.topbar,.you,.dchip,.board,.back,.ctr,.toast,.tbank,.acts){opacity:1;transform:none}
+.stage.land .back{transition-delay:calc(var(--t)*(var(--i,0)*70ms + 200ms))}
+
+@media (prefers-reduced-motion: reduce){.stage *{transition-duration:1ms !important;animation:none !important}}

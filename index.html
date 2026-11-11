@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Deal In · Join transition</title>
+<meta name="description" content="Prototype of the join-to-table transition: the game card's cards lift off, shuffle while the table rim draws as progress, then deal in at your seat.">
+<meta name="theme-color" content="#090d1a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main class="page">
+  <div class="fit" id="fit">
+    <div class="stage lobby" id="stage" style="--t:1">
+
+      <!-- Lobby backdrop (the table you're on before opening Join More Games) -->
+      <div class="lob" aria-hidden="true">
+        <div class="ov"></div>
+        <div class="ghost" style="left:28px;top:190px"></div>
+        <div class="ghost" style="left:314px;top:300px"></div>
+        <div class="top0">
+          <span class="ib"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 5h12M3 9h12M3 13h12"/></svg></span>
+          <span class="ib"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 3v12M3 9h12"/></svg></span>
+          <span class="ib"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M3 4h12v8H8l-3 3v-3H3z"/></svg></span>
+        </div>
+      </div>
+
+      <!-- Destination table art + the rim that draws as loading progress -->
+      <div class="tbase" aria-hidden="true">
+        <img class="timg" id="timg" src="assets/table.png" alt="">
+        <svg class="rim" width="292" height="431" viewBox="0 0 292 431"><rect data-accent-stroke x="1.5" y="1.5" width="289" height="428" rx="144" fill="none" stroke-width="3" pathLength="1" stroke-dasharray="1"/></svg>
+      </div>
+
+      <!-- Join More Games sheet -->
+      <div class="sheet">
+        <div class="handle"></div>
+        <h2 class="sh-title">Join More Games</h2>
+        <button class="x" aria-label="Close"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M2 2l10 10M12 2L2 12"/></svg></button>
+        <div class="chips" style="top:66px"><span class="chip on">All</span><span class="chip">NLH</span><span class="chip">PLO4</span><span class="chip">SNG</span></div>
+        <div class="chips" style="top:106px"><span class="chip on">All</span><span class="chip">$0.05/$0.1</span><span class="chip">$0.1/$0.2</span><span class="chip">$0.25/$0.5</span></div>
+
+        <!-- Static cards; the first slot (left:16, top:146) is the live hero button below -->
+        <div class="card" data-edge style="left:201px;top:146px" aria-hidden="true" data-seats="1" data-of="6"></div>
+        <div class="card" data-edge style="left:16px;top:254px" aria-hidden="true" data-seats="4" data-of="8"></div>
+        <div class="card" data-edge style="left:201px;top:254px" aria-hidden="true" data-seats="1" data-of="6"></div>
+
+        <div class="club" style="left:16px;top:228px"><i></i>The Clubhouse</div>
+        <div class="club" style="left:201px;top:228px"><i></i>The Clubhouse</div>
+        <div class="club" style="left:16px;top:336px"><i></i>The Clubhouse</div>
+        <div class="club" style="left:201px;top:336px"><i></i>The Clubhouse</div>
+        <button class="create">Create Game</button>
+      </div>
+
+      <!-- Hero: the game card the player taps -->
+      <button class="hero" id="hero" data-edge aria-label="Join game">
+        <span class="hbg" data-grad></span>
+        <span class="icon"><span class="mc a"><span data-t="iconA"></span><i data-t="suitA"></i></span><span class="mc b"><span data-t="iconB"></span><i data-t="suitB"></i></span></span>
+        <span class="hc"><span class="nm" data-t="gameName"></span><span class="ml" data-t="metaLabel"></span><span class="mv" data-t="metaValue"></span></span>
+        <span class="ring"><svg width="58" height="58" viewBox="0 0 58 58" aria-hidden="true"><circle cx="29" cy="29" r="25" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="3"/><circle class="arc" id="heroArc" data-accent-stroke cx="29" cy="29" r="25" fill="none" stroke-width="3" stroke-linecap="round" pathLength="6" transform="rotate(-90 29 29)"/></svg><span class="rt"><span class="rn"><b data-t="seats"></b>/6</span><small>seats</small></span></span>
+      </button>
+
+      <!-- In-game table UI -->
+      <div class="tbl">
+        <div class="topbar r">
+          <span class="ib"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 5h12M3 9h12M3 13h12"/></svg></span>
+          <div class="tabs">
+            <div class="tb on"><div class="fan"><span data-t="iconA"></span><span data-t="iconA"></span><span data-t="iconB"></span></div><div class="lb"><span data-t="gameName"></span><small><span data-t="seats"></span>/6</small><span class="pb"><span id="tabFill" data-accent-bg></span></span></div></div>
+            <div class="tb"><div class="fan"><span>A</span><span>A</span><span>A</span></div><div class="lb">PLO<small>33</small><span class="pb"><span style="width:55%;background:#e05252"></span></span></div></div>
+            <div class="tb dim"><div class="fan"><span>A</span><span>A</span><span>A</span></div><div class="lb">PLO<small>33</small><span class="pb"><span style="width:20%;background:#8a8f9c"></span></span></div></div>
+          </div>
+          <span class="ib"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h12v8H8l-3 3v-3H3z"/></svg></span>
+        </div>
+
+        <div class="opp r" style="left:22px;top:150px;width:86px;--i:0"><img src="assets/players/tihi.png" alt="Tihi, 4.35"></div>
+        <div class="opp r" style="left:278px;top:150px;width:90px;--i:1"><img src="assets/players/bong.png" alt="bongripper, 23.72"></div>
+        <div class="opp r" style="left:14px;top:400px;width:89px;--i:2"><img src="assets/players/andrew.png" alt="Andrew79, 9.6"></div>
+        <div class="opp r" style="left:300px;top:400px;width:73px;--i:3"><img src="assets/players/dsmack.png" alt="dsmack, 24.55"></div>
+        <div class="seat r" style="left:170px;top:96px;--i:4">Join</div>
+
+        <div class="board r" aria-hidden="true">
+          <span class="back r" style="--i:0"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 1.5l5 6.5-5 6.5-5-6.5z"/></svg></span>
+          <span class="back r" style="--i:1"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 1.5l5 6.5-5 6.5-5-6.5z"/></svg></span>
+          <span class="back r" style="--i:2"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 1.5l5 6.5-5 6.5-5-6.5z"/></svg></span>
+          <span class="back r" style="--i:3"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 1.5l5 6.5-5 6.5-5-6.5z"/></svg></span>
+          <span class="back r" style="--i:4"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 1.5l5 6.5-5 6.5-5-6.5z"/></svg><em>5</em></span>
+        </div>
+        <div class="ldg r" role="status"><span>Shuffling up<span class="dots"><i></i><i></i><i></i></span></span><small><span data-t="gameName"></span> · <span data-t="metaValue"></span> · The Clubhouse</small></div>
+        <div class="ctr r" style="--i:4"><span class="pill" data-t="gameName"></span><span class="bl" data-t="blinds"></span></div>
+
+        <div class="you r" style="--i:1"><img class="avimg" src="assets/players/you.png" alt=""><div class="plate2"><span>john</span><b>10.00</b></div></div>
+        <div class="dchip r" style="--i:4">D</div>
+        <div class="toast r" style="--i:7"><span>You're seated · dealt in next hand</span></div>
+        <div class="tbank r" style="--i:5">+30s<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="8" fill="#2a2d38"/><path d="M5.5 7.5h5v4h-5zM6.5 7.5V6a1.5 1.5 0 013 0v1.5" fill="none" stroke="#c9ccd6" stroke-width="1.1"/></svg></div>
+        <div class="acts r" style="--i:6"><button class="fold">Fold</button><button class="call">Call</button><button class="raise">Raise</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ctl" role="toolbar" aria-label="Prototype controls">
+    <button class="cb" id="replay">Replay</button>
+    <button class="cb" id="slow" aria-pressed="false">Slow-mo 4×</button>
+    <button class="cb" id="game" aria-label="Switch game type">NLH</button>
+    <span class="ph" id="phase" aria-live="polite"></span>
+  </div>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
